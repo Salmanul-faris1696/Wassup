@@ -1,4 +1,6 @@
+import bcrypt from "bcryptjs" 
 import User from "../models/user.model.js"
+import generateTokensAndSetCookie from "../utils/generateToken.js"
 
 export const signup = async (req , res) => {
 	try {
@@ -15,22 +17,30 @@ export const signup = async (req , res) => {
 			return res.status(400).json({ error:"Passoword and confirm password don't matching "})
 		}
 
+		//hash the password here
+		const salt = await bcrypt.genSalt(10);
+		const hashPassword = await bcrypt.hash(password , salt)
+
 		const newUser = new User({
 			fullName,
 			username,
-			password,
+			password :hashPassword ,
 			gender,
 			profilePic: gender == "male" ? maleProfile : femaleProfile 
 		})
-
-		await newUser.save()
-		res.status(201).json({
-			_id : newUser._id,
-			fullName : newUser.fullName,
-			username : newUser.username,
-			password : newUser.profilePic,
-		})
-
+		if (newUser) {
+			// generate jwt tokens 
+			generateTokensAndSetCookie(newUser._id , res)
+			await newUser.save()
+			res.status(201).json({
+				_id : newUser._id,
+				fullName : newUser.fullName,
+				username : newUser.username,
+				password : newUser.profilePic,
+			})
+		} else {
+			res.status(500).json({error : "invalid user data "})
+		}
 	} catch (error) {
 		console.log("signup controller error check >> " ,error.message)
 		res.status(500).json({error : "internal sever error "})
