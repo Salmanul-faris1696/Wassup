@@ -15,11 +15,6 @@ const userSchema = new mongoose.Schema({
 		minlength: 8,
 		required:true,
 	},
-	// confirmPassword: {
-	// 	type: String,
-	// 	minLength: 8,
-	// 	required:true,
-	// },
 	gender: {
 		type: String,
 		required: true,
@@ -29,7 +24,7 @@ const userSchema = new mongoose.Schema({
 		type: String,
 		default:"",
 	},
-})
+},{timestamps : true})
 
 const User = mongoose.model("User", userSchema);
 export default User;

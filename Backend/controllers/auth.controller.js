@@ -69,7 +69,6 @@ export const login = async (req, res) => {
 		console.log("login controller error check >> " ,error.message)
 		res.status(500).json({error : "internal sever error "})
 	}
-	
 }
 
 export const logout = async (req , res) => {
