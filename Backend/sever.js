@@ -3,7 +3,7 @@ import dotenv from 'dotenv'  // const dotenv = require('dotenv')
 
 import authRoutes from './routes/auth.routes.js'
 import messageRoutes from './routes/message.routes.js'
-import connectToMongoDB from './database/connectToMongoDb.js'
+import connectToMongoDB from './database/connectToMongoDB.js'
 
 const app = express()
 const PORT = process.env.PORT || 5000
