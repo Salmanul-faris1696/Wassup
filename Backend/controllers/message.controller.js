@@ -32,8 +32,6 @@ export const sendMessage = async (req, res) => {
 
 		await Promise.all([conversation.save() , newMessage.save()]) // this will run in parallel while using above two line code it will take two more sec to save or one after another instead of using this it done two funtn at a time 
 
-		
-
 		res.status(201).json(newMessage);
 	} catch (error) {
 		console.log("Error in Message controller: ", error.message);
